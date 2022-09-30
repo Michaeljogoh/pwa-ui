@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState  } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { baseURL } from "../api/api";
@@ -11,7 +11,6 @@ const Update = () => {
   });
   let navigate = useNavigate();
   let { id } = useParams();
-  console.log(id);
 
   const handleChange = (event) => {
     setNewUser((prev) => ({
@@ -20,16 +19,19 @@ const Update = () => {
     }));
   };
 
+
+
   // sumbit blog post function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${baseURL}${id}`);
+      await axios.put(`${baseURL}${id}`,JSON.stingfy(newUser));
       navigate("/", { replace: true });
     } catch (e) {
       console.log(e);
     }
   };
+
 
   return (
     <div className="form-section">

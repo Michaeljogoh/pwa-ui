@@ -3,9 +3,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
 import { baseURL } from "../api/api";
+import Loading from "../loading/Loading";
 
 const Read = () => {
   const [user, setUser] = useState([]); // user state
+  const [isLoaded, setIsLoaded] = useState(false); // loading state
 
   // fetching blogs from API
   useEffect(() => {
@@ -13,9 +15,10 @@ const Read = () => {
       try {
         const { data } = await axios.get(baseURL);
         setUser(data.readUser);
-        console.log(data.readUser);
+        setIsLoaded(true);
       } catch (e) {
         console.log(e);
+        setIsLoaded(true);
       }
     };
     getUser();
@@ -23,6 +26,11 @@ const Read = () => {
 
   const deleteUser = async (id) => {
     await axios.delete(`${baseURL}${id}`);
+    const newUserList = user.filter((users)=>{
+      return users.id !== id;
+    }) 
+
+    setUser(newUserList)
   };
 
   return (
@@ -38,8 +46,8 @@ const Read = () => {
           <th>Update</th>
           <th>Delete</th>
         </tr>
-         
-        {
+      
+        {isLoaded ? ( 
           user.map((users , i)=>{
              return(
               <tr key={i}>
@@ -64,7 +72,9 @@ const Read = () => {
               </tr>
              )
           })
-         }
+          ) : (
+            <Loading />
+          )}
 
         </tbody>
   </table>
