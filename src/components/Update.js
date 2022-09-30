@@ -25,7 +25,7 @@ const Update = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${baseURL}${id}`,JSON.stingfy(newUser));
+      await axios.put(`${baseURL}${id}`,newUser);
       navigate("/", { replace: true });
     } catch (e) {
       console.log(e);
